@@ -1,11 +1,13 @@
-export const wrapError = (fn) => {
+export const wrapError = (fnCrll) => {
   return (req, res, next) => {
-    fn(req, res).catch((err) => next(err));
+    fnCrll(req, res).catch((err) => next(err));
   };
 };
 
 export const errorHandler = (err, req, res, next) => {
+  console.log("🚀 ~ file: errorsHandler.js:8 ~ errorHandler ~ err:", err);
   const statusCode = err.statusCode || 500;
+
   const errorResponse = {
     ok: false,
     message: err.message,

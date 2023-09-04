@@ -7,21 +7,9 @@ export const _dirname = (metaUrl) => {
   return pathFile;
 };
 
-export const resOk = (res, statusCode, data) => {
+export const resOk = (res, data, statusCode = 200) => {
   res.status(statusCode).json({
     ok: true,
     data,
   });
 };
-
-
-
-
-
-
-
-
-
-
-
-

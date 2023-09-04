@@ -1,7 +1,11 @@
 import { Strategy } from "passport-local";
 import { compare } from "bcrypt";
 import db from "../../../../db/conection.js";
-const User = db.users;
+import { ClientError } from "../../errors.js";
+const User = db.collection("users");
+
+// validar las credenciales
+// agrega un objeto user al request (el que viene de la busqueda a la db)
 
 const localStrategy = new Strategy(
   {
@@ -10,14 +14,16 @@ const localStrategy = new Strategy(
   },
   async (email, password, done) => {
     try {
-      const user = await User.findOne({ email });
+
+      // buscar por email
+      // const user = 
       if (!user) {
-        return done(null, false);
+        throw new ClientError("email not found");
       }
 
-      const isMatch = await compare(password, user.password);
-      if (!isMatch) {
-        return done(null, false);
+      const isMatchPass = await compare(password, user.password);
+      if (!isMatchPass) {
+        throw new ClientError("password mismatch");
       }
 
       delete user.password;

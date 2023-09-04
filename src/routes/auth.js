@@ -1,8 +1,8 @@
 import { Router } from "express";
-import passport from "passport";
 import { AuthCrll } from "../controllers/auth.js";
 import { wrapError } from "../middlewares/errorsHandler.js";
+import { passportLocal } from "../utils/auth/index.js";
 
 export const router = Router();
-router.use(passport.authenticate("local", { session: false }));
+router.use(passportLocal);
 router.post("/login", wrapError(AuthCrll.login));
